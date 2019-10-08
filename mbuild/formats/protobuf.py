@@ -27,10 +27,11 @@ def write_pb2(cmpd, filename, binary=True):
     cmpd_to_proto[cmpd] = root_proto
 
     for sub_cmpd in cmpd.successors():
-        parent_cmpd = sub_cmpd.parent
-        sub_proto = cmpd_to_proto[parent_cmpd].children.add() 
-        sub_proto = _mb_to_proto(sub_cmpd, sub_proto)
-        cmpd_to_proto[sub_cmpd] = sub_proto
+        if not sub_compound.port_particle:
+            parent_cmpd = sub_cmpd.parent
+            sub_proto = cmpd_to_proto[parent_cmpd].children.add() 
+            sub_proto = _mb_to_proto(sub_cmpd, sub_proto)
+            cmpd_to_proto[sub_cmpd] = sub_proto
 
     _add_proto_bonds(cmpd, root_proto)
 
